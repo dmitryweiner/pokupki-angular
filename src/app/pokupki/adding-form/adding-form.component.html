@@ -1,0 +1,11 @@
+<form (ngSubmit)="add()">
+  <label>
+    Название покупки:
+    <input type="text" name="title" [(ngModel)]="title">
+  </label>
+  <label>
+    Цена:
+    <input type="text" name="price" [(ngModel)]="price">
+  </label>
+  <button type="submit">Add</button>
+</form>

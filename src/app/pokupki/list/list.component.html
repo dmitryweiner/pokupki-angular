@@ -1,16 +1,5 @@
-<form (ngSubmit)="add()">
-  <label>
-    Название покупки:
-    <input type="text" name="title" [(ngModel)]="title">
-  </label>
-  <label>
-    Цена:
-    <input type="text" name="price" [(ngModel)]="price">
-  </label>
-  <button type="submit">Add</button>
-</form>
 <ul>
   <li *ngFor="let item of buyings">
-    <b>{{ item.title }}</b>: {{ item.price }} ₽
+    <list-item [price]="item.price" [title]="item.title" [id]="item.id"></list-item>
   </li>
 </ul>
