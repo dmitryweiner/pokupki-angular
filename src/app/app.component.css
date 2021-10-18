@@ -1,0 +1,17 @@
+.parent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.centered-vertically {
+  width: 800px;
+  margin: 0 auto;
+}
+
+.centered-horizontally {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
