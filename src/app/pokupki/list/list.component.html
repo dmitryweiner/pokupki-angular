@@ -1,5 +1,5 @@
 <ul>
-  <li *ngFor="let item of buyings">
+  <li *ngFor="let item of getBuyings()">
     <list-item [price]="item.price" [title]="item.title" [id]="item.id"></list-item>
   </li>
 </ul>

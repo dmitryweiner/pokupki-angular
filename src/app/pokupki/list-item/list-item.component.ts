@@ -15,7 +15,6 @@ export class ListItemComponent  {
   constructor(private pokupkiService: PokupkiService) { }
 
   delete() {
-    console.log("ListItemComponent");
     this.pokupkiService.delete(this.id);
   }
 

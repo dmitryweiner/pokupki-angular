@@ -6,6 +6,7 @@ import { ViewComponent } from './view/view.component';
 import { AddingFormComponent } from './adding-form/adding-form.component';
 import { ListItemComponent } from './list-item/list-item.component';
 import {PokupkiService} from "./pokupki.service";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {PokupkiService} from "./pokupki.service";
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [ PokupkiService ]
 })

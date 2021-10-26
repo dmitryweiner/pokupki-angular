@@ -21,7 +21,7 @@ export class AddingFormComponent  {
         title: this.title,
         price: this.price
       });
-      this.title = "";
       this.price = 0;
+      this.title = "";
   }
 }

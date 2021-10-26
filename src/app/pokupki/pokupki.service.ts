@@ -1,40 +1,42 @@
-import { Injectable } from '@angular/core';
-import { Buying } from "./interfaces";
+import {Injectable} from '@angular/core';
+import {Buying} from "./interfaces";
 import {FormObject} from "./adding-form/adding-form.component";
+import {HttpClient} from "@angular/common/http";
+
+/**
+ * Using this server:
+ * @see https://github.com/dmitryweiner/todo-server/
+ */
+const URL = "http://localhost:3001/buyings";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PokupkiService {
-  buyings: Buying[] = [
-    {
-      id: "1",
-      title: "Картошка",
-      price: 123
-    },
-    {
-      id: "2",
-      title: "Яйца",
-      price: 100
-    }
-  ];
+  buyings: Buying[] = [];
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  getBuyings(): Buying[] {
+  async getBuyings(): Promise<Buying[]> {
+    this.buyings = await this.http.get<Buying[]>(URL).toPromise();
     return this.buyings;
   }
 
-  add(formObject: FormObject) {
-    this.buyings.push({
-      id: Math.random().toString(36).substr(2),
-      title: formObject.title,
-      price: formObject.price
-    });
+  getCurrentBuyings() {
+    return this.buyings;
   }
 
-  delete(id: string) {
-    const index = this.buyings.findIndex(item => item.id === id);
-    this.buyings.splice(index, 1);
+  async add(formObject: FormObject) {
+    const newBuying = {
+      title: formObject.title,
+      price: formObject.price
+    };
+    await this.http.post(URL, newBuying).toPromise();
+    await this.getBuyings();
+  }
+
+  async delete(id: string) {
+    await this.http.delete(`${URL}/${id}`).toPromise();
+    await this.getBuyings();
   }
 }
