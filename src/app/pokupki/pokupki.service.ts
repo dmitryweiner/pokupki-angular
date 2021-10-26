@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Buying} from "./interfaces";
 import {FormObject} from "./adding-form/adding-form.component";
 import {HttpClient} from "@angular/common/http";
+import {concatMap} from "rxjs/operators";
 
 /**
  * Using this server:
@@ -17,26 +18,27 @@ export class PokupkiService {
 
   constructor(private http: HttpClient) { }
 
-  async getBuyings(): Promise<Buying[]> {
-    this.buyings = await this.http.get<Buying[]>(URL).toPromise();
+  retreiveBuyings() {
+    this.http.get<Buying[]>(URL).subscribe(result => this.buyings = result);
+  }
+
+  getBuyings() {
     return this.buyings;
   }
 
-  getCurrentBuyings() {
-    return this.buyings;
-  }
-
-  async add(formObject: FormObject) {
+  add(formObject: FormObject) {
     const newBuying = {
       title: formObject.title,
       price: formObject.price
     };
-    await this.http.post(URL, newBuying).toPromise();
-    await this.getBuyings();
+    this.http.post(URL, newBuying)
+      .pipe(concatMap(result => this.http.get<Buying[]>(URL)))
+      .subscribe(result => this.buyings = result);
   }
 
-  async delete(id: string) {
-    await this.http.delete(`${URL}/${id}`).toPromise();
-    await this.getBuyings();
+  delete(id: string) {
+    this.http.delete(`${URL}/${id}`)
+      .pipe(concatMap(result => this.http.get<Buying[]>(URL)))
+      .subscribe(result => this.buyings = result);
   }
 }

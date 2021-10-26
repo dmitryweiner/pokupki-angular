@@ -11,11 +11,11 @@ export class ListComponent implements OnInit {
   buyings: Buying[] = [];
   constructor(private pokupkiService: PokupkiService) {}
 
-  async ngOnInit() {
-     this.buyings = await this.pokupkiService.getBuyings();
+  ngOnInit() {
+     this.pokupkiService.retreiveBuyings();
   }
 
   getBuyings() {
-    return this.pokupkiService.getCurrentBuyings();
+    return this.pokupkiService.getBuyings();
   }
 }
