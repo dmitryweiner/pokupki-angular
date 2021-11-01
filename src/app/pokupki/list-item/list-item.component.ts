@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {PokupkiService} from "../pokupki.service";
+import {Store} from "@ngxs/store";
+import {Actions} from "../store";
 
 @Component({
   selector: 'list-item',
@@ -12,10 +13,10 @@ export class ListItemComponent  {
   @Input() price: number = 0;
   @Input() id: string = "";
 
-  constructor(private pokupkiService: PokupkiService) { }
+  constructor(private store: Store) {}
 
   delete() {
-    this.pokupkiService.delete(this.id);
+    this.store.dispatch(new Actions.Remove(this.id));
   }
 
 }

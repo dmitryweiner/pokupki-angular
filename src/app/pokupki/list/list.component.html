@@ -1,5 +1,8 @@
 <ul>
-  <li *ngFor="let item of getBuyings()">
+  <li *ngFor="let item of buyings$ | async">
     <list-item [price]="item.price" [title]="item.title" [id]="item.id"></list-item>
   </li>
 </ul>
+<div>
+  Сумма: <b>{{ sum$ | async }}</b>
+</div>

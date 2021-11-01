@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Buying} from "../interfaces";
-import {PokupkiService} from "../pokupki.service";
+import { Select, Store } from "@ngxs/store";
+import {Actions, BuyingsState, BuyingsStore} from "../store";
+import { Buying } from "../interfaces";
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'list',
@@ -8,14 +10,14 @@ import {PokupkiService} from "../pokupki.service";
   styleUrls: ['./list.component.css'],
 })
 export class ListComponent implements OnInit {
-  buyings: Buying[] = [];
-  constructor(private pokupkiService: PokupkiService) {}
+
+  @Select(BuyingsStore.buyings) buyings$?: Observable<Buying[]>;
+  @Select(BuyingsStore.sum) sum$?: Observable<Buying[]>;
+
+  constructor(private store: Store) {  }
 
   ngOnInit() {
-     this.pokupkiService.retreiveBuyings();
+     this.store.dispatch(new Actions.GetAll());
   }
 
-  getBuyings() {
-    return this.pokupkiService.getBuyings();
-  }
 }

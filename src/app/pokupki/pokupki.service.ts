@@ -3,6 +3,7 @@ import {Buying} from "./interfaces";
 import {FormObject} from "./adding-form/adding-form.component";
 import {HttpClient} from "@angular/common/http";
 import {concatMap} from "rxjs/operators";
+import {Observable} from "rxjs";
 
 /**
  * Using this server:
@@ -14,31 +15,18 @@ const URL = "http://localhost:3001/buyings";
   providedIn: 'root'
 })
 export class PokupkiService {
-  buyings: Buying[] = [];
 
   constructor(private http: HttpClient) { }
 
-  retreiveBuyings() {
-    this.http.get<Buying[]>(URL).subscribe(result => this.buyings = result);
+  getAll(): Observable<Buying[]> {
+    return this.http.get<Buying[]>(URL);
   }
 
-  getBuyings() {
-    return this.buyings;
+  add(formObject: FormObject): Observable<Buying> {
+    return this.http.post<Buying>(URL, formObject);
   }
 
-  add(formObject: FormObject) {
-    const newBuying = {
-      title: formObject.title,
-      price: formObject.price
-    };
-    this.http.post(URL, newBuying)
-      .pipe(concatMap(result => this.http.get<Buying[]>(URL)))
-      .subscribe(result => this.buyings = result);
-  }
-
-  delete(id: string) {
-    this.http.delete(`${URL}/${id}`)
-      .pipe(concatMap(result => this.http.get<Buying[]>(URL)))
-      .subscribe(result => this.buyings = result);
+  remove(id: string): Observable<void> {
+    return this.http.delete<void>(`${URL}/${id}`);
   }
 }
