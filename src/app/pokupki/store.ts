@@ -51,10 +51,10 @@ export class BuyingsStore {
     return state.buyings;
   }
 
-  @Selector()
-  static sum(state: BuyingsState) {
+  @Selector([BuyingsStore.buyings])
+  static sum({buyings}: {buyings: Buying[]}) {
     let sum = 0;
-    for (let item of state.buyings) {
+    for (let item of buyings) {
       sum += Number(item.price);
     }
     return sum;
